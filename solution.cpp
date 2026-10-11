@@ -2,9 +2,7 @@
 #include <cstdlib>
 #include <cstdio>
 using namespace std;
-
 const int month_days[] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-
 class Date
 {
 public:
@@ -12,12 +10,10 @@ public:
     int _month;
     int _day;
     
-    // Check if a year is leap year
     bool isLeapYear(int year) const {
         return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
     }
     
-    // Get days in a month for a specific year
     int getDaysInMonth(int year, int month) const {
         if (month == 2 && isLeapYear(year)) {
             return 29;
@@ -25,7 +21,6 @@ public:
         return month_days[month];
     }
     
-    // Check if a date is valid
     bool isValidDate(int year, int month, int day) const {
         if (year < 1900 || year > 2030) return false;
         if (month < 1 || month > 12) return false;
@@ -33,33 +28,27 @@ public:
         return true;
     }
     
-    // Convert date to days since 1900-01-01 for easier calculations
     long toDays() const {
         long totalDays = 0;
         
-        // Add days for complete years
         for (int y = 1900; y < _year; y++) {
             totalDays += isLeapYear(y) ? 366 : 365;
         }
         
-        // Add days for complete months in current year
         for (int m = 1; m < _month; m++) {
             totalDays += getDaysInMonth(_year, m);
         }
         
-        // Add days in current month
-        totalDays += _day - 1; // -1 because 1900-01-01 is day 0
+        totalDays += _day - 1;
         
         return totalDays;
     }
     
-    // Convert days since 1900-01-01 back to date
     void fromDays(long days) {
         _year = 1900;
         _month = 1;
         _day = 1;
         
-        // Find year
         while (days >= 365) {
             int daysInYear = isLeapYear(_year) ? 366 : 365;
             if (days < daysInYear) break;
@@ -67,7 +56,6 @@ public:
             _year++;
         }
         
-        // Find month
         for (int m = 1; m <= 12; m++) {
             int daysInMonth = getDaysInMonth(_year, m);
             if (days < daysInMonth) {
@@ -77,15 +65,11 @@ public:
             days -= daysInMonth;
         }
         
-        // Find day
         _day = days + 1;
     }
 
-public:
-    // Default constructor: 1900-01-01
     Date() : _year(1900), _month(1), _day(1) {}
     
-    // Constructor with parameters, validate date
     Date(int yy, int mm, int dd) {
         if (isValidDate(yy, mm, dd)) {
             _year = yy;
@@ -98,7 +82,6 @@ public:
         }
     }
     
-    // Prefix increment (++d)
     Date& operator++() {
         _day++;
         if (_day > getDaysInMonth(_year, _month)) {
@@ -112,14 +95,12 @@ public:
         return *this;
     }
     
-    // Postfix increment (d++)
     Date operator++(int) {
         Date temp = *this;
         ++(*this);
         return temp;
     }
     
-    // Prefix decrement (--d)
     Date& operator--() {
         _day--;
         if (_day < 1) {
@@ -133,51 +114,42 @@ public:
         return *this;
     }
     
-    // Postfix decrement (d--)
     Date operator--(int) {
         Date temp = *this;
         --(*this);
         return temp;
     }
     
-    // Date + integer days
     Date operator+(int days) const {
         Date result = *this;
-        long long totalDays = result.toDays() + days;
+        long totalDays = result.toDays() + days;
         result.fromDays(totalDays);
         return result;
     }
     
-    // Date - integer days
     Date operator-(int days) const {
         Date result = *this;
-        long long totalDays = result.toDays() - days;
+        long totalDays = result.toDays() - days;
         result.fromDays(totalDays);
         return result;
     }
     
-    // Date - Date (difference in days, absolute value)
     long operator-(const Date& other) const {
         long diff = this->toDays() - other.toDays();
         return diff < 0 ? -diff : diff;
     }
     
-    // Less than comparison
     int operator<(const Date& other) const {
         if (_year != other._year) return _year < other._year;
         if (_month != other._month) return _month < other._month;
         return _day < other._day;
     }
     
-    // Output function (backup if operator<< doesn't work)
     void out() const {
         cout << _year << "-" << _month << "-" << _day << endl;
     }
-    
-    
 };
 
-// Overload output operator
 ostream& operator<<(ostream& os, const Date& date) {
     os << date._year << "-" << date._month << "-" << date._day;
     return os;
@@ -196,27 +168,23 @@ void Test()
         cout << d0 << endl;
         cout << d1 << endl;
         cout << d2 << endl;
-        //d0.out(); d1.out(); d2.out();
     }
     if (op == 2 || op == 0)
     {
         cin >> yy >> mm >> dd;
         Date d0(yy, mm, dd);
-        for (int i=0;i<5;++i) cout << ++d0 << endl; //(++d0).out();
-        for (int i=0;i<5;++i) cout << d0++ << endl; //(d0++).out();
-        for (int i=0;i<5;++i) cout << d0-- << endl; //(d0--).out();
-        for (int i=0;i<2;++i) cout << --d0 << endl; //(--d0).out();
+        for (int i=0;i<5;++i) cout << ++d0 << endl;
+        for (int i=0;i<5;++i) cout << d0++ << endl;
+        for (int i=0;i<5;++i) cout << d0-- << endl;
+        for (int i=0;i<2;++i) cout << --d0 << endl;
         cout << d0 << endl;
-        //d0.out();
     }
     if (op == 3 || op == 0)
     {
         cin >> yy >> mm >> dd;
         Date d0(yy, mm, dd);
         cout << d0 + 100 << endl;
-        // (d0+100).out();
         cout << d0 - 1000 << endl;
-        // (d0-1000).out();
     }
     if (op == 4 || op == 0)
     {
