@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstdio>
-#include <cmath>
 using namespace std;
 
 const int month_days[] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
@@ -159,7 +158,8 @@ public:
     
     // Date - Date (difference in days, absolute value)
     long long operator-(const Date& other) const {
-        return abs(this->toDays() - other.toDays());
+        long long diff = this->toDays() - other.toDays();
+        return diff < 0 ? -diff : diff;
     }
     
     // Less than comparison
