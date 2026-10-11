@@ -1,11 +1,13 @@
 #include <iostream>
+#include <cstdlib>
+#include <cstdio>
 using namespace std;
 
 const int month_days[] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
 class Date
 {
-private:
+public:
     int _year;
     int _month;
     int _day;
@@ -172,8 +174,7 @@ public:
         cout << _year << "-" << _month << "-" << _day << endl;
     }
     
-    // Friend function for output operator
-    friend ostream& operator<<(ostream& os, const Date& date);
+    
 };
 
 // Overload output operator
