@@ -34,8 +34,8 @@ private:
     }
     
     // Convert date to days since 1900-01-01 for easier calculations
-    long long toDays() const {
-        long long totalDays = 0;
+    long toDays() const {
+        long totalDays = 0;
         
         // Add days for complete years
         for (int y = 1900; y < _year; y++) {
@@ -54,7 +54,7 @@ private:
     }
     
     // Convert days since 1900-01-01 back to date
-    void fromDays(long long days) {
+    void fromDays(long days) {
         _year = 1900;
         _month = 1;
         _day = 1;
@@ -157,8 +157,8 @@ public:
     }
     
     // Date - Date (difference in days, absolute value)
-    long long operator-(const Date& other) const {
-        long long diff = this->toDays() - other.toDays();
+    long operator-(const Date& other) const {
+        long diff = this->toDays() - other.toDays();
         return diff < 0 ? -diff : diff;
     }
     
