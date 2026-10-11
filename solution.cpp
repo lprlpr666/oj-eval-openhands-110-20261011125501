@@ -1,6 +1,4 @@
 #include <iostream>
-#include <cstdlib>
-#include <cstdio>
 using namespace std;
 
 const int month_days[] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
